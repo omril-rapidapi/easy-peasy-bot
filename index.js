@@ -89,20 +89,57 @@ controller.hears('hello', 'direct_message', function (bot, message) {
     bot.reply(message, 'Hello!');
 });
 
+controller.hears('buttons', 'direct_message', function (bot, message) {
+    var m = {
+                        "text": "This is your first interactive message",
+                        "attachments": [
+                            {
+                                "text": "Building buttons is easy right?",
+                                "fallback": "Shame... buttons aren't supported in this land",
+                                "callback_id": "button_tutorial",
+                                "color": "#3AA3E3",
+                                "attachment_type": "default",
+                                "actions": [
+                                    {
+                                        "name": "yes",
+                                        "text": "yes",
+                                        "type": "button",
+                                        "value": "yes"
+                                    },
+                                    {
+                                        "name": "no",
+                                        "text": "no",
+                                        "type": "button",
+                                        "value": "no"
+                                    },
+                                    {
+                                        "name": "maybe",
+                                        "text": "maybe",
+                                        "type": "button",
+                                        "value": "maybe",
+                                        "style": "danger"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+    bot.reply(message,m);
+});
+
 
 /**
  * AN example of what could be:
  * Any un-handled direct mention gets a reaction and a pat response!
  */
-//controller.on('direct_message,mention,direct_mention', function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'robot_face',
-//    }, function (err) {
-//        if (err) {
-//            console.log(err)
-//        }
-//        bot.reply(message, 'I heard you loud and clear boss.');
-//    });
-//});
+controller.on('direct_message,mention,direct_mention', function (bot, message) {
+    bot.api.reactions.add({
+        timestamp: message.ts,
+        channel: message.channel,
+        name: 'robot_face',
+    }, function (err) {
+        if (err) {
+            console.log(err)
+        }
+        bot.reply(message, 'I heard you loud and clear boss. :)');
+    });
+});
